@@ -690,4 +690,43 @@ Why?
 
 # C3 Machine Learning Modeling Pipelines in Production
 
-## C3W1 Neural Architecture Search
+## C3W1 AutoML
+
+#### AutoML
+
+Popular Cloud Offerings:
+
+* Amazon SageMaker Autopilot (Database-ish. sutiabel for multiple use cases for large datasets)
+  * Automatically trains and tunes the best machine learning models for classification or regression based on your data
+  * Key features:
+    * Quick Iteration
+    * High quality models
+    * Performace ranked
+    * Selected features
+    * Notebooks for reproducibility
+  ![alt text](image-96.png)
+* Microsoft Azure Automated Machine Learning
+  * Quick customization: model + control settings
+  * Automated Feature Engineering
+  * Data Visualization
+  * Intelligent stopping
+  * Experiment summaries
+  * Matric visualization
+  * Model Interpretability
+  * Pattern Discovrty
+* Google Cloud AutoML
+  * Accessible to beginners
+  * Train High-quality models
+  * Neatural Architecture Search
+  * Transfer Learning
+  * GUI based
+  * Pipeline life-cycle
+  * Data labeling
+  * Data cleaning
+
+![alt text](image-97.png)
+
+Papers：
+<https://arxiv.org/pdf/1611.01578>
+<https://arxiv.org/pdf/1603.01670>
+<https://arxiv.org/pdf/1808.05377>
