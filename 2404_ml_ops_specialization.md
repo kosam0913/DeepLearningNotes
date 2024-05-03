@@ -905,3 +905,5 @@ What's special about pruning?
 
 **xhu Note**
 Although pruning can make additional benefits such as improved transmission and gains speed increases in the CPU, there are still significant limitations of this method to solve architectures on a larger scale.
+
+## C3W2 High-Performance Models
