@@ -692,7 +692,7 @@ Why?
 
 ## C3W1 AutoML
 
-#### AutoML
+### AutoML
 
 Popular Cloud Offerings:
 
@@ -730,3 +730,178 @@ Papers：
 <https://arxiv.org/pdf/1611.01578>
 <https://arxiv.org/pdf/1603.01670>
 <https://arxiv.org/pdf/1808.05377>
+
+## C3W2 Model Resource Management Techniques
+
+### Dimentionality Reduction
+
+Why is high-dimensional data a problem?
+
+* More dimensions -> more features
+* Risk of overfitting
+* Distances grown more similar
+* No clear boundaries between clusters
+* Concentration phenomenon for Euclidean distance
+
+Why are mode feautres a problem?
+
+* Redundant / irrelevant features
+* More noise added than signal
+* Hard to interpret and visualize
+* Hard to store and process data
+![alt text](image-98.png)
+![alt text](image-99.png)
+
+Why reduce dimentionality?
+
+* Storage
+* Computational
+* Consistency
+* Visualization
+
+Major techniques for dimensionality reduction
+
+* Engineering
+  * Feature Engineering
+  ![alt text](image-100.png)
+* Selection
+
+Approches of conduction dimensionality reduction
+
+* Mannually dimensionality reducton
+* Algorithmic dimensionality reducton
+  * Linear dimentionality reduction: project n-dimensional data into a k-dimensional subspace (k<<n)
+  ![alt text](image-101.png)
+    * Principal component analysis (PCA)
+    ![alt text](image-102.png)
+  * More dimensionality reduction algorithms
+    ![alt text](image-103.png)
+    * Singular value decomposition (SVD)
+    * Independent component analysis (ICA)
+      ![alt text](image-104.png)
+    * Non-negative Matrix Factorization (NMF)
+
+**xhu Note**
+Data Science integrates all data generation, data preprocessing and data analysis (mining) techniques. Dimensionality reduction is only a preprocessing step.
+
+1. Principal Component Analysis (PCA) on numerical data.
+2. Single Value Decomposition (SVD) on image data
+3. Non-negative Matrix Factorization (NMF) on text data.
+
+### Quantization & Pruning
+
+* Trends in adoption o smart devices
+* Factors dirving this trend
+  * Demands move ML capabilities from cloud to on-devices
+  * Cost-effitiveness
+  * Compliance with privacy regulations
+
+![alt text](image-105.png)
+![alt text](image-106.png)
+![alt text](image-107.png)
+
+#### Quantization
+
+involves transforming a model into an equivalent representation that uses parameters and computations at a lower precision
+
+e.g. quantizing img
+![alt text](image-108.png)
+
+Why quantize neural networks?
+
+* Neural networks -> more parameters -> take up more space
+* Shrinking model file size
+* Reduce computational resources
+* Make models run faster and use less power with low-precision
+
+Benefits of quantization
+
+* Faster compute
+* Low memory bandwidth
+* Low power
+* Integer operations supported across CPU/DSP/NPUs
+![alt text](image-110.png)
+
+Trade-offs
+![alt text](image-109.png)
+
+* Accuracy
+
+Post-training Quantization
+
+Theoratically can do quantization during or after training
+
+* Post-training quantization: a conversion technique that can reduce model size while also improving CPU and hardware accelerator latency with little degradation in model accuracy -> quantize an already trained TensorFlow model
+  * Float16 is especially useful when you plan to use a GPU > best balanced?
+  ![alt text](image-111.png)
+  * Alternatively, consider using quantization aware training if the loss of accuracy is too great
+
+```python
+import tensorflow as tf
+converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]
+
+tflite_quat_model = convert.convert()
+```
+
+Quantization Aware Training(QAT)
+
+* Inserts fake quantization nodes in the forward pass
+* Rewrites the graph to emulate quantized inference
+* Reduce the loss of acuracy due to quantization
+* Resulting model contrains all data to be quantized according to spec
+
+![alt text](image-112.png)
+![alt text](image-113.png)
+
+```python
+import tensorflow_model_optimization as tfmot
+
+model = tf.keras.models.Sequential([
+  ...
+])
+
+# Quantize the entire model
+quantize_model = tfmot.quantization.keras.quantize_model(model)
+
+# Continue with training as usual
+quantize_model.compile(...)
+quantize_model.fit(...)
+
+
+# Quantize the parts of the model
+quantize_annotate_layer = tfmot.quantization.keras.quantize_annotate_layer
+model = tf.keras.models.Sequential([
+  ...,
+])
+
+quantize_model = tfmot.quantization.keras.quantize_apply(model)
+
+```
+
+Reference
+<https://blog.tensorflow.org/2020/04/quantization-aware-training-with-tensorflow-model-optimization-toolkit.html>
+
+#### Pruning
+
+to remove parts of the model that did not contribute substantially to producing accurate results
+![alt text](image-114.png)
+
+Model sparsity
+
+* Larger models -> more parameters -> more memory -> less efficient
+* Sparse models -> less parameters -> less memory -> more efficient
+
+What's special about pruning?
+
+* Better storage and/or transmission
+* Gain speedups in CPU and some ML accelerators
+* Can be used in tandem with quantization to get additional benefits
+* Unlock performance improvements
+
+* The Lottery Ticket Hypothesis <https://arxiv.org/abs/1803.03635>
+![alt text](image-115.png)
+![alt text](image-116.png)
+
+**xhu Note**
+Although pruning can make additional benefits such as improved transmission and gains speed increases in the CPU, there are still significant limitations of this method to solve architectures on a larger scale.
