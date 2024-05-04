@@ -884,8 +884,39 @@ Reference
 
 #### Pruning
 
-to remove parts of the model that did not contribute substantially to producing accurate results
+to remove parts of the model that did not contribute substantially to producing accurate results > zeroing out insignificant (i.e. low magnitude) weights
 ![alt text](image-114.png)
+
+```python
+# Get the pruning method
+prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
+
+# Compute end step to finish pruning after 2 epochs.
+batch_size = 128
+epochs = 2
+validation_split = 0.1 # 10% of training set will be used for validation set. 
+
+num_images = train_images.shape[0] * (1 - validation_split)
+end_step = np.ceil(num_images / batch_size).astype(np.int32) * epochs
+
+# Define pruning schedule.
+pruning_params = {
+      'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=0.50,
+                                                               final_sparsity=0.80,
+                                                               begin_step=0,
+                                                               end_step=end_step)
+}
+
+# Pass in the trained baseline model
+model_for_pruning = prune_low_magnitude(baseline_model, **pruning_params)
+
+# `prune_low_magnitude` requires a recompile.
+model_for_pruning.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model_for_pruning.summary()
+```
 
 Model sparsity
 
@@ -907,3 +938,70 @@ What's special about pruning?
 Although pruning can make additional benefits such as improved transmission and gains speed increases in the CPU, there are still significant limitations of this method to solve architectures on a larger scale.
 
 ## C3W2 High-Performance Models
+
+### Distributed Training
+
+![alt text](image-117.png)
+
+* Types of distributed training
+  * Data parallelism: In data parallelism, the model is replicated on different accelerators (GPU/CPU) and data is split between them
+  ![alt text](image-118.png)
+  ![alt text](image-119.png)
+  * Model parallelism: When models are too large to fit on a single device then they can be divided into partitions, assigning different partitions to different acceleators
+
+* Distribution Strategy. API e.g. tf.distribute.Strategy
+  * **One Device Strategy**: This strategy is used when you want to run on a single device - no distribution. Typical usage of this strategy is testig your code on a single device before scaling to multiple devices / distribute codes.
+  * **Mirrored Strategy**: This strategy is used when you want to run on multiple GPUs on one machine
+    * Creates a replica per GPU <> Variables are mirrored
+    * Weight updating is done using efficient cros-device communication algorithms (all-reducr algorithms)
+  * **Parameter Server Strategy**: This strategy is used when you want to run on multiple machines. Some machines are designated as workers and some as parameter servers
+    * Parameter servers store variables so that workers can perform computtions on them
+    * Implements asynchronous data parallelism by default
+  * Multi-Worker Mirrored Strategy: This strategy is used when you want to run on multiple machines with multiple GPUs on each machine
+  * Central Storage Strategy
+  * TPU Strategy
+
+![alt text](image-120.png)
+
+### High Performance Models
+
+#### High Performance Ingestion
+
+Why input pipelines?
+
+Accelerators are a key part of high-performance modeling, training, and inference, but accelerators are also expensive, so it's important to use them efficiently > That means keeping them busy, which requires you to supply them with enough data fast enough.
+
+* Full utilization of hardware resources
+
+![alt text](image-121.png)
+![alt text](image-122.png)
+![alt text](image-123.png)
+
+How to optimize pipline performance?
+
+* Prefetching
+  ![alt text](image-124.png)
+* Parallelizing data extraction and transformation
+  * Parallelize data extraction
+    * Perfer local storage as it takes significantly less time than read data from remote storage
+    * Maximize the aggregate badwidth of the remote storage by reading more files
+    ![alt text](image-125.png)
+  * Parallelize data transformation
+    * Post data loading, the inputs may need preprocessing
+    * Element-wise preprocessing can be parallelized accross CPU cores
+    * The optimal value for the level of parallelism depends on:
+      * Size of the data
+      * Cost of the transformation
+      * Number of CPU cores
+    * Use tf.data.experimental.AUTOTUNE to automatically tune the level of parallelism
+* Caching
+  * In memory: tf.data.Dataset.cache()
+  * Disk: tf.data.Dataset.cache(filename=)
+  ![alt text](image-126.png)
+* Reduce memory
+
+#### High Performance Modelling
+
+![alt text](image-127.png)
+![alt text](image-128.png)
+![alt text](image-129.png)
