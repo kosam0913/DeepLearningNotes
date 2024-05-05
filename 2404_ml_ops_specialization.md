@@ -937,7 +937,7 @@ What's special about pruning?
 **xhu Note**
 Although pruning can make additional benefits such as improved transmission and gains speed increases in the CPU, there are still significant limitations of this method to solve architectures on a larger scale.
 
-## C3W2 High-Performance Models
+## C3W3 High-Performance Models
 
 ### Distributed Training
 
@@ -1122,3 +1122,17 @@ Techniques
 ![alt text](image-131.png)
 ![alt text](image-132.png)
 ![alt text](image-133.png)
+
+![alt text](image-134.png)
+
+![alt text](image-135.png)
+
+Paper:
+
+<https://arxiv.org/pdf/1503.02531>
+
+## C3W4 Model Analysis
+
+Black box v.s. Model introspection
+![alt text](image-135.png)
+![alt text](image-136.png)
