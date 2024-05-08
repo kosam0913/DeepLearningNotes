@@ -1136,3 +1136,70 @@ Paper:
 Black box v.s. Model introspection
 ![alt text](image-135.png)
 ![alt text](image-136.png)
+
+### Model Analysis & Debugging
+
+#### TensorFlow Model Analysis (TFMA)
+
+![alt text](image-137.png)
+
+<https://blog.tensorflow.org/2018/03/introducing-tensorflow-model-analysis.html>
+<https://www.tensorflow.org/tfx/model_analysis/architecture>
+
+#### Model Debugging Techniques
+
+* Benchmark models
+* Sensitivity analysis
+  * Random Attacks
+  * Partial Dependence Plots: visualie the effects of changing one or more variables in your model (open source pkgs: PDPbox and pyCEbox)
+* Residual analysis: a subset of a larger class of approaches to prevent social discrimination and other problems that ML prodcutioon systems usually face.
+
+Data slicing in this context will help you understand when discrimination is happening. You need to go one step further to actually address it.
+
+#### Model Remediation
+
+Data augmentation:
+
+* Adding synthetic data to the training set
+* Helps correct for unbalanced training data
+
+Interpretable and explainable ML:
+
+* Overcome the black box problem
+* Helps understand the model's decision-making process
+
+#### Model Fairness
+
+* True positive rate (TPR)
+* False positive rate (FPR)
+* True negative rate (TNR)
+* False negative rate (FNR)
+* Accuracy & Area under the curve (AUC)
+
+#### Continuous Evaluation and Monitoring
+
+<https://christophergs.com/machine%20learning/2020/03/14/how-to-monitor-machine-learning-models/>
+
+contingency table -> If the data is stationary these quantities should not change over time
+
+![alt text](image-138.png)
+
+## C3W5 Explainable AI
+
+![alt text](image-139.png)
+Paper:
+<https://arxiv.org/pdf/1910.10045>
+
+Book:
+<https://christophm.github.io/interpretable-ml-book/index.html>
+
+Interpretation methods can be grouped based on
+
+* model specific, or model agnostic
+* intrinsic or post-hoc
+* local or global
+
+Model Agnostic Methods
+
+* Partial Dependence Plots (PDPs) 
+![alt text](image-140.png)
