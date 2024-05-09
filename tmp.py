@@ -38,10 +38,26 @@
 
 # rename all files in the directory to lowercase
 from pathlib import Path
+import shutil
 
-input_dir = r"C:/Users/kosam/Documents/Coursera/ml_operation_specialization_lectures"
-output_dir = r"C:/Users/kosam/Documents/Workspace/- xhu_notes/assignments/ml_operation_specialization"
-for path in Path(input_dir).rglob('*.ipynb'):
-    if path.is_file():
-        new_name = path.with_name(path.name.lower())
-        shutil.copy(path, new_name)
+input_dir = r"C:\Users\kosam\Documents\Workspace\.tmp"
+output_dir = r"C:\Users\kosam\Documents\Workspace\.tmp2"
+images = Path(input_dir).rglob('*.png')
+
+cutoff = 95
+add_buff = 109 - cutoff
+
+for image in images:
+    image_index = image.name.split('-')[1].replace('.png', '')
+
+    new_name = image.name.replace(image_index, str(int(image_index) + add_buff))
+    shutil.move(image, Path(output_dir, new_name))
+
+
+marker_File = r"C:/Users/kosam/Documents/Workspace/- xhu_notes/2404_ml_ops_specialization.md"
+with open(marker_File, 'r') as file:
+    content = file.read()
+
+import re
+# Find all image references in the markdown file
+image_refs = re.findall(r'/!/[.*?/]/((.*?)/)', content)

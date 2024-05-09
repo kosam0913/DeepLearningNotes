@@ -704,7 +704,7 @@ Popular Cloud Offerings:
     * Performace ranked
     * Selected features
     * Notebooks for reproducibility
-  ![alt text](image-96.png)
+  ![alt text](image-110.png)
 * Microsoft Azure Automated Machine Learning
   * Quick customization: model + control settings
   * Automated Feature Engineering
@@ -724,7 +724,7 @@ Popular Cloud Offerings:
   * Data labeling
   * Data cleaning
 
-![alt text](image-97.png)
+![alt text](image-111.png)
 
 Papers：
 <https://arxiv.org/pdf/1611.01578>
@@ -749,8 +749,8 @@ Why are mode feautres a problem?
 * More noise added than signal
 * Hard to interpret and visualize
 * Hard to store and process data
-![alt text](image-98.png)
-![alt text](image-99.png)
+![alt text](image-112.png)
+![alt text](image-113.png)
 
 Why reduce dimentionality?
 
@@ -763,7 +763,7 @@ Major techniques for dimensionality reduction
 
 * Engineering
   * Feature Engineering
-  ![alt text](image-100.png)
+  ![alt text](image-114.png)
 * Selection
 
 Approches of conduction dimensionality reduction
@@ -771,14 +771,14 @@ Approches of conduction dimensionality reduction
 * Mannually dimensionality reducton
 * Algorithmic dimensionality reducton
   * Linear dimentionality reduction: project n-dimensional data into a k-dimensional subspace (k<<n)
-  ![alt text](image-101.png)
+  ![alt text](image-115.png)
     * Principal component analysis (PCA)
-    ![alt text](image-102.png)
+    ![alt text](image-116.png)
   * More dimensionality reduction algorithms
-    ![alt text](image-103.png)
+    ![alt text](image-117.png)
     * Singular value decomposition (SVD)
     * Independent component analysis (ICA)
-      ![alt text](image-104.png)
+      ![alt text](image-118.png)
     * Non-negative Matrix Factorization (NMF)
 
 **xhu Note**
@@ -796,16 +796,16 @@ Data Science integrates all data generation, data preprocessing and data analysi
   * Cost-effitiveness
   * Compliance with privacy regulations
 
-![alt text](image-105.png)
-![alt text](image-106.png)
-![alt text](image-107.png)
+![alt text](image-119.png)
+![alt text](image-120.png)
+![alt text](image-121.png)
 
 #### Quantization
 
 involves transforming a model into an equivalent representation that uses parameters and computations at a lower precision
 
 e.g. quantizing img
-![alt text](image-108.png)
+![alt text](image-122.png)
 
 Why quantize neural networks?
 
@@ -820,10 +820,10 @@ Benefits of quantization
 * Low memory bandwidth
 * Low power
 * Integer operations supported across CPU/DSP/NPUs
-![alt text](image-110.png)
+![alt text](image-123.png)
 
 Trade-offs
-![alt text](image-109.png)
+![alt text](image-124.png)
 
 * Accuracy
 
@@ -833,7 +833,7 @@ Theoratically can do quantization during or after training
 
 * Post-training quantization: a conversion technique that can reduce model size while also improving CPU and hardware accelerator latency with little degradation in model accuracy -> quantize an already trained TensorFlow model
   * Float16 is especially useful when you plan to use a GPU > best balanced?
-  ![alt text](image-111.png)
+  ![alt text](image-125.png)
   * Alternatively, consider using quantization aware training if the loss of accuracy is too great
 
 ```python
@@ -851,8 +851,8 @@ Quantization Aware Training(QAT)
 * Reduce the loss of acuracy due to quantization
 * Resulting model contrains all data to be quantized according to spec
 
-![alt text](image-112.png)
-![alt text](image-113.png)
+![alt text](image-126.png)
+![alt text](image-127.png)
 
 ```python
 import tensorflow_model_optimization as tfmot
@@ -885,7 +885,7 @@ Reference
 #### Pruning
 
 to remove parts of the model that did not contribute substantially to producing accurate results > zeroing out insignificant (i.e. low magnitude) weights
-![alt text](image-114.png)
+![alt text](image-128.png)
 
 ```python
 # Get the pruning method
@@ -931,8 +931,8 @@ What's special about pruning?
 * Unlock performance improvements
 
 * The Lottery Ticket Hypothesis <https://arxiv.org/abs/1803.03635>
-![alt text](image-115.png)
-![alt text](image-116.png)
+![alt text](image-129.png)
+![alt text](image-130.png)
 
 **xhu Note**
 Although pruning can make additional benefits such as improved transmission and gains speed increases in the CPU, there are still significant limitations of this method to solve architectures on a larger scale.
@@ -941,12 +941,12 @@ Although pruning can make additional benefits such as improved transmission and 
 
 ### Distributed Training
 
-![alt text](image-117.png)
+![alt text](image-131.png)
 
 * Types of distributed training
   * Data parallelism: In data parallelism, the model is replicated on different accelerators (GPU/CPU) and data is split between them
-  ![alt text](image-118.png)
-  ![alt text](image-119.png)
+  ![alt text](image-132.png)
+  ![alt text](image-133.png)
   * Model parallelism: When models are too large to fit on a single device then they can be divided into partitions, assigning different partitions to different acceleators
 
 * Distribution Strategy. API e.g. tf.distribute.Strategy
@@ -961,7 +961,7 @@ Although pruning can make additional benefits such as improved transmission and 
   * Central Storage Strategy
   * TPU Strategy
 
-![alt text](image-120.png)
+![alt text](image-134.png)
 
 ### High Performance Models
 
@@ -973,19 +973,19 @@ Accelerators are a key part of high-performance modeling, training, and inferenc
 
 * Full utilization of hardware resources
 
-![alt text](image-121.png)
-![alt text](image-122.png)
-![alt text](image-123.png)
+![alt text](image-135.png)
+![alt text](image-136.png)
+![alt text](image-137.png)
 
 How to optimize pipline performance?
 
 * Prefetching
-  ![alt text](image-124.png)
+  ![alt text](image-138.png)
 * Parallelizing data extraction and transformation
   * Parallelize data extraction
     * Perfer local storage as it takes significantly less time than read data from remote storage
     * Maximize the aggregate badwidth of the remote storage by reading more files
-    ![alt text](image-125.png)
+    ![alt text](image-139.png)
   * Parallelize data transformation
     * Post data loading, the inputs may need preprocessing
     * Element-wise preprocessing can be parallelized accross CPU cores
@@ -997,14 +997,14 @@ How to optimize pipline performance?
 * Caching
   * In memory: tf.data.Dataset.cache()
   * Disk: tf.data.Dataset.cache(filename=)
-  ![alt text](image-126.png)
+  ![alt text](image-140.png)
 * Reduce memory
 
 #### High Performance Modelling
 
-![alt text](image-127.png)
-![alt text](image-128.png)
-![alt text](image-129.png)
+![alt text](image-141.png)
+![alt text](image-142.png)
+![alt text](image-143.png)
 
 Ref:
 <https://arxiv.org/abs/1811.06965>
@@ -1019,7 +1019,7 @@ Why knowledge distillation? -> Sophisticated models and their problems
 
 To distill or concertrate this complexity into smaller networks
 
-![alt text](image-130.png)
+![alt text](image-144.png)
 
 Teacher-student model
 
@@ -1119,13 +1119,12 @@ Techniques
 * Approach #1: **Weight objectives** (student and teacher) and combine during backprop
 * Approach #2: **Compare distributions** of the preductions (student and teacher) using KL divergence
 
-![alt text](image-131.png)
-![alt text](image-132.png)
-![alt text](image-133.png)
+![alt text](image-145.png)
+![alt text](image-146.png)
 
-![alt text](image-134.png)
+![alt text](image-147.png)
 
-![alt text](image-135.png)
+![alt text](image-148.png)
 
 Paper:
 
@@ -1134,14 +1133,14 @@ Paper:
 ## C3W4 Model Analysis
 
 Black box v.s. Model introspection
-![alt text](image-135.png)
-![alt text](image-136.png)
+![alt text](image-149.png)
+![alt text](image-150.png)
 
 ### Model Analysis & Debugging
 
 #### TensorFlow Model Analysis (TFMA)
 
-![alt text](image-137.png)
+![alt text](image-151.png)
 
 <https://blog.tensorflow.org/2018/03/introducing-tensorflow-model-analysis.html>
 <https://www.tensorflow.org/tfx/model_analysis/architecture>
@@ -1182,11 +1181,11 @@ Interpretable and explainable ML:
 
 contingency table -> If the data is stationary these quantities should not change over time
 
-![alt text](image-138.png)
+![alt text](image-152.png)
 
 ## C3W5 Explainable AI
 
-![alt text](image-139.png)
+![alt text](image-153.png)
 Paper:
 <https://arxiv.org/pdf/1910.10045>
 
@@ -1201,5 +1200,5 @@ Interpretation methods can be grouped based on
 
 Model Agnostic Methods
 
-* Partial Dependence Plots (PDPs) 
-![alt text](image-140.png)
+* Partial Dependence Plots (PDPs)
+![alt text](image-154.png)
